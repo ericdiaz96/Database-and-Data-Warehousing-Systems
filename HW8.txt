@@ -1,0 +1,6 @@
+SELECT smemberid, smembernameFROM hafh.staffmember;SELECT ccid, ccname, ccindustryFROM hafh.corpclient;SELECT b.buildingid, b.bnooffloors, m.mfname, m.mlnameFROM hafh.building b, hafh.manager mWHERE hafh.b.bmanagerid=hafh.m.managerid;SELECT mfname, mlname, msalary, mbdate, COUNT(managerid)FROM hafh.managerGROUP BY mfname, mlname, msalary, mbdateHAVING msalary < 50000;SELECT buildingid, aptno, ccnameFROM hafh.apartment, hafh.corpclientWHERE hafh.apartment.ccid = hafh.corpclient.ccid AND ccname = 'WindyCT';SELECT DISTINCT inspector.insid, inspector.insnameFROM hafh.inspector, hafh.inspectingWHERE hafh.inspector.insid = hafh.inspecting.insid AND inspecting.datenext > '1-jan-2014';SELECT DISTINCT s.smemberid, s.smembernameFROM hafh.staffmember s, hafh.cleaning cl, hafh.apartment a,     hafh.corpclient ccWHERE s.smemberid = cl.smemberidAND   a.aptno = cl.aptnoAND   a.buildingid = cl.buildingidAND   a.ccid = cc.ccidAND   cc.cclocation = 'Chicago';
+
+SELECT cc.ccname client, cr.ccname referredby
+FROM  hafh.corpclient cc, hafh.corpclient cr
+WHERE cr.ccid = cc.ccidreferredby
+AND   cr.ccindustry = 'Music';SELECT buildingid, aptno, anoofbedroomsFROM hafh.apartmentWHERE ccid IS NULL;
