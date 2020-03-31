@@ -1,0 +1,53 @@
+SELECT customername, customerzip
+FROM zagi.customer ;
+
+SELECT productid, productname, productprice
+FROM zagi.product
+WHERE productprice >= 100;
+
+SELECT productid, productname, productprice, vendorname
+FROM zagi.product, zagi.vendor
+WHERE zagi.product.vendorid = zagi.vendor.vendorid
+ORDER BY productid;
+
+SELECT productid, productname, productprice, vendorname, categoryname
+FROM zagi.product, zagi.vendor, zagi.category
+WHERE zagi.product.vendorid = zagi.vendor.vendorid AND zagi.product.categoryid = zagi.category.categoryid 
+ORDER BY productid; 
+
+SELECT productid, productname, productprice
+FROM zagi.product, zagi.category
+WHERE product.categoryid = category.categoryid AND categoryname = 'Camping';
+
+SELECT tid, customername, tdate
+FROM zagi.salestransaction, zagi.product, zagi.customer
+WHERE zagi.salestransaction.customerid = zagi.customer.customerid AND productname = 'Dura Boot' ;
+
+SELECT region.regionid, region.regionname, COUNT(storeid)
+FROM zagi.region, zagi.store
+WHERE region.regionid = store.regionid
+GROUP BY region.regionid, region.regionname
+
+SELECT category.categoryid, category.categoryname, AVG(productprice)
+FROM zagi.category, zagi.product
+WHERE category.categoryid = product.categoryid
+GROUP BY category.categoryid, category.categoryname
+
+SELECT product.categoryid, SUM(noofitems)
+FROM zagi.product, zagi.soldvia
+WHERE product.productid = soldvia.productid
+GROUP BY product.categoryid
+
+SELECT tid, SUM(noofitems)
+FROM zagi.soldvia
+GROUP BY soldvia.tid
+HAVING SUM(noofitems)>5;
+
+SELECT productid, productname
+FROM zagi.product
+WHERE product.productprice = (SELECT MIN(productprice) FROM zagi.product);
+
+SELECT productid, productname, vendorname
+FROM zagi.product, zagi.vendor
+WHERE zagi.product.vendorid = zagi.vendor.vendorid AND productprice < (SELECT AVG(productprice) FROM zagi.product)
+
